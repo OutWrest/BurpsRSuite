@@ -11,6 +11,7 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap4")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("02bd631a-4ada-4c93-aed8-e62930920e38")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("BurpsRSuite")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]

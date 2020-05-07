@@ -12,5 +12,11 @@ namespace BurpsRSuite.Models
         public virtual ChallengeQuestion Question2 { get; set; }
         public string Answer1 { get; set; }
         public string Answer2 { get; set; }
+
+        [PersonalData]
+        public string FirstName { get; set; }
+
+        [PersonalData]
+        public string LastName { get; set; }
     }
 }
