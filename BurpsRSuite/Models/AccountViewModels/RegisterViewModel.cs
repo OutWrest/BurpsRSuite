@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,6 +9,20 @@ namespace BurpsRSuite.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
+
+        [Required]
+        [PersonalData]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+
+        [PersonalData]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }
