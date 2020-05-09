@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BurpsRSuite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200508043626_InitialCreate")]
+    [Migration("20200508224321_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,9 @@ namespace BurpsRSuite.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Answer1")
                         .HasColumnType("TEXT");

@@ -79,7 +79,8 @@ namespace BurpsRSuite.Migrations
                     Answer1 = table.Column<string>(nullable: true),
                     Answer2 = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    AccountNumber = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -24,6 +24,9 @@ namespace BurpsRSuite.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Answer1")
                         .HasColumnType("TEXT");
 
