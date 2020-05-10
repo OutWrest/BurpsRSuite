@@ -5,11 +5,15 @@ using System.Threading.Tasks;
 using BurpsRSuite.Data;
 using BurpsRSuite.Models;
 using BurpsRSuite.Models.AccountViewModels;
+using BurpsRSuite.Models.ManageViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
+using OtpNet;
 
 namespace BurpsRSuite.Controllers
 {
@@ -46,12 +50,14 @@ namespace BurpsRSuite.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByEmailAsync(model.Email);
+                ApplicationUser user = await userManager.FindByEmailAsync(model.Email);
+                
 
                 if (user != null)
                 {
                     if (user.VerifyAccountNumber(model.AccountNumber))
                     {
+                        HttpContext.Session.SetString("Email", model.Email);
                         return RedirectToAction("ResetPassword");
                     }
                     ModelState.AddModelError(string.Empty, "Authentication failed.");
@@ -61,17 +67,46 @@ namespace BurpsRSuite.Controllers
             return View();
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Index), "Home");
+            }
+
+            ApplicationUser user = await userManager.FindByEmailAsync(
+                HttpContext.Session.GetString("Email"));
+
+            if(user != null)
+            {
+                await userManager.RemovePasswordAsync(user);
+                await userManager.AddPasswordAsync(user, model.NewPassword);
+                await userManager.UpdateAsync(user);
+                return RedirectToAction(nameof(Index), "Manage");
+            }
 
 
-
-
-
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
+            ApplicationUser user = await userManager.GetUserAsync(User);
+            user.CQVerified = false;
+            user.TFVerified = false;
+            await userManager.UpdateAsync(user);
             await signInManager.SignOutAsync();
-            return RedirectToAction("index", "home");
+            return RedirectToAction("Index", "home");
         }
 
 
@@ -101,7 +136,8 @@ namespace BurpsRSuite.Controllers
                 {
                     await signInManager.SignInAsync(user, isPersistent: false);
 
-                    return RedirectToAction("index", "home");
+
+                    return RedirectToAction(nameof(SetupChallengeQuestions));
                 }
 
                 foreach(var error in result.Errors)
@@ -139,14 +175,9 @@ namespace BurpsRSuite.Controllers
                     {
                         return RedirectToAction(nameof(SetupChallengeQuestions));
                     }
-
-                    if(!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                    {
-                        return LocalRedirect(returnUrl);
-                    }
                     else
                     {
-                        return RedirectToAction("Index", "Manage");
+                        return RedirectToAction(nameof(AnswerChallengeQuestions));
                     }
                 }
 
@@ -163,13 +194,13 @@ namespace BurpsRSuite.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Redirect(nameof(Index));
+                return RedirectToAction(nameof(Index), "Home");
             }
 
             ApplicationUser user = await userManager.GetUserAsync(User);
             if (user != null)
             {
-                SetupChallengeQuestionsViewModel model = new SetupChallengeQuestionsViewModel
+                ChallengeQuestionsViewModel model = new ChallengeQuestionsViewModel
                 {
                     ChallengeQuestion1 = "What was your childhood nickname?",
                     ChallengeQuestion2 = "In what city or town did your mother and father meet?",
@@ -177,41 +208,115 @@ namespace BurpsRSuite.Controllers
 
                 return View(model);
             }
-            return Redirect(nameof(Index));
+            return RedirectToAction(nameof(Index), "Home");
         }
 
         [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> SetupChallengeQuestions(SetupChallengeQuestionsViewModel model)
+        public async Task<IActionResult> SetupChallengeQuestions(ChallengeQuestionsViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return Redirect(nameof(Index));
+                return RedirectToAction(nameof(Index), "Home");
             }
 
             ApplicationUser user = await userManager.GetUserAsync(User);
             if (user != null)
             {
-                //set questions in database
-                user.Question1 = new ChallengeQuestion
-                {
-                    Id = 1,
-                    Question = model.ChallengeQuestion1
-                };
-                user.Question1 = new ChallengeQuestion
-                {
-                    Id = 2,
-                    Question = model.ChallengeQuestion2
-                };
+                user.Question1 = model.ChallengeQuestion1;
+                user.Question2 = model.ChallengeQuestion2;
+
                 user.Answer1 = model.Answer1.Trim();
                 user.Answer2 = model.Answer2.Trim();
 
+                user.CQVerified = true;
                 await userManager.UpdateAsync(user);
+
                 return RedirectToAction(nameof(Index), "Manage");
             }
-            return Redirect(nameof(Index));
+            return RedirectToAction(nameof(Index), "Home");
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> AnswerChallengeQuestions()
+        {
+            ApplicationUser user = await userManager.GetUserAsync(User);
+
+            if(!user.HasSetupChallengeQuestions())
+            {
+                return RedirectToAction(nameof(Index), "Home");
+            }
+
+
+            ChallengeQuestionsViewModel model = new ChallengeQuestionsViewModel
+            {
+                ChallengeQuestion1 = "What was your childhood nickname?",
+                ChallengeQuestion2 = "In what city or town did your mother and father meet?",
+            };
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AnswerChallengeQuestions(ChallengeQuestionsViewModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Index), "Home");
+            }
+
+            ApplicationUser user = await userManager.GetUserAsync(User);
+
+            if(user != null)
+            {
+                if(user.VerifyChallengeAnswers(model.Answer1, model.Answer2))
+                {
+                    user.CQVerified = true;
+                    await userManager.UpdateAsync(user);
+                    return RedirectToAction(nameof(Index), "Manage");
+                }
+            }
+            return RedirectToAction(nameof(Index), "Home");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult TwoFactor()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> TwoFactor(TwoFactorViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Index), "Home");
+            }
+
+            ApplicationUser user = await userManager.GetUserAsync(User);
+
+            if (user == null || !user.TotpEnabled)
+            {
+                return RedirectToAction(nameof(Index), "Home");
+            }
+
+            Totp totp = new Totp(user.TotpSecret);
+
+            if (!totp.VerifyTotp(model.Passcode, out long window, VerificationWindow.RfcSpecifiedNetworkDelay))
+            {
+                ModelState.AddModelError(string.Empty, "Verification Failed.");
+                model.Passcode = "";
+                return View(model);
+            }
+
+            user.TFVerified = true;
+            await userManager.UpdateAsync(user);
+
+            return RedirectToAction(nameof(Index), "Manage");
+        }
         public IActionResult Index()
         {
             return View();

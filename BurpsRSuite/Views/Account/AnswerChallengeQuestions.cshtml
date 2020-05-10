@@ -1,7 +1,7 @@
 ﻿@model BurpsRSuite.Models.AccountViewModels.ChallengeQuestionsViewModel
 
 @{
-    ViewBag.Title = "Set up Challenge Questions";
+    ViewBag.Title = "Answer Challenge Questions";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -14,6 +14,7 @@
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ChallengeQuestion1">@Model.ChallengeQuestion1</label>
+
                 <input asp-for="Answer1" class="form-control" type="text" name="Answer1" />
                 <span asp-validation-for="Answer1" class="text-danger"></span>
             </div>

@@ -9,6 +9,7 @@ namespace BurpsRSuite.Models.ManageViewModels
     {
         public string UserName { get; set; }
 
+        public string AccountNumber { get; set; }
         public string StatusMessage { get; set; }
     }
 }

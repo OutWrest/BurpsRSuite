@@ -8,8 +8,12 @@ namespace BurpsRSuite.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public virtual ChallengeQuestion Question1 { get; set; }
-        public virtual ChallengeQuestion Question2 { get; set; }
+        public byte[] TotpSecret { get; set; }
+        public bool TotpEnabled { get; set; }
+
+
+        public string Question1 { get; set; }
+        public string Question2 { get; set; }
         public string Answer1 { get; set; }
         public string Answer2 { get; set; }
 
@@ -31,7 +35,12 @@ namespace BurpsRSuite.Models
 
         public bool VerifyAccountNumber(string AccountNumber)
         {
-            return this.AccountNumber.Trim().ToLower() == AccountNumber.Trim().ToLower();
+            VerifiedAccountNumber = this.AccountNumber.Trim().ToLower() == AccountNumber.Trim().ToLower();
+            return VerifiedAccountNumber;
         }
+
+        public bool VerifiedAccountNumber { get; set; }
+        public bool CQVerified { get; set; }
+        public bool TFVerified { get; set; }
     }
 }

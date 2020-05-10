@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BurpsRSuite.Models.AccountViewModels
 {
     
-    public class SetupChallengeQuestionsViewModel
+    public class ChallengeQuestionsViewModel
     {
         public string ChallengeQuestion1 { get; set; }
         [Required]
