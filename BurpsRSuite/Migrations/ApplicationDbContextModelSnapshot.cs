@@ -24,11 +24,17 @@ namespace BurpsRSuite.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Answer1")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Answer2")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("CQVerified")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -70,14 +76,23 @@ namespace BurpsRSuite.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("Question1Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Question1")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("Question2Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Question2")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("TFVerified")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("TotpEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("TotpSecret")
+                        .HasColumnType("BLOB");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("INTEGER");
@@ -85,6 +100,9 @@ namespace BurpsRSuite.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("TEXT")
                         .HasMaxLength(256);
+
+                    b.Property<bool>("VerifiedAccountNumber")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -94,10 +112,6 @@ namespace BurpsRSuite.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
-
-                    b.HasIndex("Question1Id");
-
-                    b.HasIndex("Question2Id");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -242,17 +256,6 @@ namespace BurpsRSuite.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("BurpsRSuite.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("BurpsRSuite.Models.ChallengeQuestion", "Question1")
-                        .WithMany()
-                        .HasForeignKey("Question1Id");
-
-                    b.HasOne("BurpsRSuite.Models.ChallengeQuestion", "Question2")
-                        .WithMany()
-                        .HasForeignKey("Question2Id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

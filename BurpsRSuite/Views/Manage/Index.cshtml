@@ -1,0 +1,28 @@
+﻿@model BurpsRSuite.Models.ManageViewModels.IndexViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+
+<div class="flex-wrap row">
+    <nav id="sidebar" class="col-2" >
+        <div class="sidebar-header">
+            <h4>Management</h4>
+            <hr />
+        </div>
+        <ul class="list-unstyled">
+            <li class="nav-item">
+                <a class="text-dark" asp-area="" asp-controller="manage" asp-action="ChangePassword">Change Password</a>
+            </li>
+            <li>
+                <a class="text-dark" asp-area="" asp-controller="manage" asp-action="CreateTF">Setup Two Factor Authentication</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid col-9">
+        <h2>Welcome @Html.DisplayFor(x => x.UserName)</h2>
+        <h5>Account Number: @Html.DisplayFor(x => x.AccountNumber)</h5>
+        <p>Some important content</p>
+    </div>
+</div>

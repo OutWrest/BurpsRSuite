@@ -1,0 +1,39 @@
+﻿@model BurpsRSuite.Models.ManageViewModels.CreateTFViewModel
+@{
+    ViewData["Title"] = "Setup Two Factor";
+}
+
+<div class="flex-wrap row">
+    <nav id="sidebar" class="col-2">
+        <div class="sidebar-header">
+            <h4>Management</h4>
+            <hr />
+        </div>
+        <ul class="list-unstyled">
+            <li class="nav-item">
+                <a class="text-dark" asp-area="" asp-controller="manage" asp-action="ChangePassword">Change Password</a>
+            </li>
+            <li>
+                <a class="text-dark" asp-area="" asp-controller="manage" asp-action="CreateTF">Setup Two Factor Authentication</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid col-9">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+            <div class="form-group">
+                <label>Scan the QR code</label>
+                <img src="data:image/png;base64,@ViewData.Model.QRCodeBase64" />
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Passcode"></label>
+                <input asp-for="Passcode" class="form-control" type="password" name="Passcode" />
+                <span asp-validation-for="Passcode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
