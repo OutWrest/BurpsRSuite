@@ -45,13 +45,6 @@ namespace BurpsRSuite
                 .AddDefaultTokenProviders();
 
             services.AddSession();
-            services.AddAuthentication()
-                .AddGoogle(options => 
-                {
-                    options.ClientId = Configuration["ClientId"];
-                    options.ClientSecret = Configuration["ClientSecret"];
-
-                });
 
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
