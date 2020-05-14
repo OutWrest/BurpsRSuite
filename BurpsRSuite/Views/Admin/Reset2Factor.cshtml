@@ -1,0 +1,34 @@
+﻿@model BurpsRSuite.Models.AdminViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "Reset Two Factor:";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+
+<h1>@ViewData["Title"] @Model.user.UserName</h1>
+
+<div class="container-fluid">
+    <div class="login-clean row justify-content-md-center">
+        <form method="post">
+            <input type="hidden" name="Id" value="@Model.user.Id" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label>@Model.Captcha</label>
+                <input hidden asp-for="Captcha" class="form-control" type="hidden" name="Captcha" value="@Model.Captcha" />
+            </div>
+            <div class="form-group">
+                <label>Please write the exact numbers to confirm</label>
+                <input asp-for="CaptchaIn" class="form-control" type="text" name="CaptchaIn" />
+                <span asp-validation-for="CaptchaIn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-danger btn-block " type="submit">Submit Two Factor Reset</button>
+            </div>
+        </form>
+        <div class="col-sm text-center">
+            <embed src="~/images/BurpsRSuite.svg" class="img-fluid" alt="BurpsRSuite Logo">
+        </div>
+    </div>
+</div>

@@ -106,7 +106,7 @@ namespace BurpsRSuite.Controllers
             user.TFVerified = false;
             await userManager.UpdateAsync(user);
             await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "home");
+            return RedirectToAction(nameof(Index), "Home");
         }
 
 
@@ -127,10 +127,10 @@ namespace BurpsRSuite.Controllers
                     Email = model.Email, 
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    AccountNumber = random.Next(0, 999999999).ToString("000000000")
-            };
-
+                    AccountNumber = random.Next(0, 999999999).ToString("000000000")};
+                
                 var result = await userManager.CreateAsync(user, model.Password);
+                await userManager.AddToRoleAsync(user, AuthorizationRoles.User);
 
                 if (result.Succeeded)
                 {

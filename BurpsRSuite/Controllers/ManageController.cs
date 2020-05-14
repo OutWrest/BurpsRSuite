@@ -80,7 +80,7 @@ namespace BurpsRSuite.Controllers
 
             IndexViewModel model = new IndexViewModel
             {
-                UserName = user.UserName,
+                UserName = user.FirstName,
                 AccountNumber = user.AccountNumber,
                 StatusMessage = StatusMessage
             };
