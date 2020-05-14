@@ -1,4 +1,5 @@
 ﻿@inject SignInManager<ApplicationUser> signInManager;
+@inject UserManager<ApplicationUser> userManager;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,14 +31,28 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Manage" asp-action="Index">Manage</a>
                         </li>
-                    </ul>
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole(AuthorizationRoles.Administrator))
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin Panel</a>
+                        </li>
+                        }
+                        </ul>
                     <ul class="navbar-nav float-right text-right">
                         @if (signInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
                                 <form method="post" asp-action="logout" asp-controller="account">
                                     <button type="submit" class="nav-link btn btn-link py-0" style="display:inline-block">
-                                        Logout @User.Identity.Name
+                                        Logout
+                                        @try
+                                        {
+                                            @await userManager.GetUserAsync(User).ContinueWith(user => user.Result.UserName);
+                                        }
+                                        catch 
+                                        {
+                                            @User.Identity.Name;
+                                        }
                                     </button>
                                 </form>
                             </li>

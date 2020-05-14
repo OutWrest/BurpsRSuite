@@ -454,3 +454,8 @@ C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Bur
 C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Razor\Views\Manage\CreateTF.cshtml.g.cs
 C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Razor\Views\Account\AnswerChallengeQuestions.cshtml.g.cs
 C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Razor\Views\Account\TwoFactor.cshtml.g.cs
+C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Index.cshtml.g.cs
+C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Edit.cshtml.g.cs
+C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Razor\Views\Admin\_StatusMessage.cshtml.g.cs
+C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Razor\Views\Admin\ResetPassword.cshtml.g.cs
+C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Razor\Views\Admin\ResetQuestions.cshtml.g.cs

@@ -1,0 +1,67 @@
+﻿@model BurpsRSuite.Models.AdminViewModels.UserViewModel
+@inject SignInManager<ApplicationUser> signInManager;
+@inject UserManager<ApplicationUser> userManager;
+@inject RoleManager<IdentityRole> roleManager;
+
+@{
+    ViewData["Title"] = "Edit user:";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+
+<h1>@ViewData["Title"] @Model.user.UserName</h1>
+
+<div class="container-fluid">
+    <div class="login-clean row justify-content-md-center">
+        <form method="post">
+            <input type="hidden" name="Id" value="@Model.user.Id" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName"></label>
+                <input asp-for="UserName" class="form-control" type="text" name="UserName" value="@Model.user.UserName" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" type="text" name="FirstName" value="@Model.user.FirstName" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" type="text" name="LastName" value="@Model.user.LastName" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" type="text" name="Email" value="@Model.user.Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AccountNumber"></label>
+                <input asp-for="AccountNumber" class="form-control" type="text" name="AccountNumber" value="@Model.user.AccountNumber" />
+                <span asp-validation-for="AccountNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @foreach (var role in roleManager.Roles.ToList())
+                {
+                    <label>@role</label>
+                    @if (await userManager.IsInRoleAsync(Model.user, role.ToString()))
+                    {
+                        <input class="form-check" type="checkbox" checked />
+                    }
+                    else
+                    {
+                        <input class="form-check" type="checkbox" />
+                    }
+                }
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" type="submit">Save Changes</button>
+            </div>
+        </form>
+        <div class="col-sm text-center">
+            <embed src="~/images/BurpsRSuite.svg" class="img-fluid" alt="BurpsRSuite Logo">
+        </div>
+    </div>
+</div>

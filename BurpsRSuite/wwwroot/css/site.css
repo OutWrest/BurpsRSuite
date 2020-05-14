@@ -77,3 +77,8 @@ form {
 image {
     height: 20px;
 }
+
+.gray {
+    opacity: 0.4;
+    filter: alpha(opacity=40); 
+}
