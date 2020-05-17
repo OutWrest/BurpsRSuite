@@ -459,3 +459,4 @@ C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Raz
 C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Razor\Views\Admin\_StatusMessage.cshtml.g.cs
 C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Razor\Views\Admin\ResetPassword.cshtml.g.cs
 C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Razor\Views\Admin\ResetQuestions.cshtml.g.cs
+C:\Users\nignog\source\repos\BurpsRSuite\BurpsRSuite\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Reset2Factor.cshtml.g.cs
