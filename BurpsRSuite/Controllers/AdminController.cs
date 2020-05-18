@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BurpsRSuite.Controllers
 {
-    //[Authorize(Roles = AuthorizationRoles.Administrator)]
+    [Authorize(Roles = AuthorizationRoles.Administrator)]
     public class AdminController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
