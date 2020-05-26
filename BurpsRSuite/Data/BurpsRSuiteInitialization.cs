@@ -145,6 +145,30 @@ namespace BurpsRSuite.Data
                 userManager.AddToRoleAsync(secureAdmin, AuthorizationRoles.Administrator)));
 
             Task.WaitAll(Tasks.ToArray());
+
+
+            await context.AddAsync(new Item
+            {
+                Author = adminUser,
+                Description = "test"
+            });
+
+
+            foreach (Item item in context.Items)
+            {
+                Console.WriteLine(item);
+                context.Remove(item);
+            }
+
+
+
+
+
+
+
+
+
+
         }
 
     }

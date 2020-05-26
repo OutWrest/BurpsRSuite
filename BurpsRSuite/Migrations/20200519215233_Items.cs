@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BurpsRSuite.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Items : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -56,19 +56,6 @@ namespace BurpsRSuite.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ChallengeQuestions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Question = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChallengeQuestions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -177,6 +164,29 @@ namespace BurpsRSuite.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Price = table.Column<decimal>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    AuthorId = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    ImagePath = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Items_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -213,6 +223,11 @@ namespace BurpsRSuite.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_AuthorId",
+                table: "Items",
+                column: "AuthorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -233,7 +248,7 @@ namespace BurpsRSuite.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ChallengeQuestions");
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

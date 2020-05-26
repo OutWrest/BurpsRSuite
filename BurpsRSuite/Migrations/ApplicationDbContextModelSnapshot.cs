@@ -116,18 +116,32 @@ namespace BurpsRSuite.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("BurpsRSuite.Models.ChallengeQuestion", b =>
+            modelBuilder.Entity("BurpsRSuite.Models.Item", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Question")
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ChallengeQuestions");
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -256,6 +270,13 @@ namespace BurpsRSuite.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("BurpsRSuite.Models.Item", b =>
+                {
+                    b.HasOne("BurpsRSuite.Models.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

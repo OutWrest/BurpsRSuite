@@ -10,7 +10,7 @@ namespace BurpsRSuite.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<ChallengeQuestion> ChallengeQuestions { get; set; }
+        public DbSet<Item> Items { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
