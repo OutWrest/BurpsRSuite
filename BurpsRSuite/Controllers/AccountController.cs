@@ -305,7 +305,7 @@ namespace BurpsRSuite.Controllers
 
             Totp totp = new Totp(user.TotpSecret);
 
-            if (!totp.VerifyTotp(model.Passcode, out long window, VerificationWindow.RfcSpecifiedNetworkDelay))
+            if (String.IsNullOrEmpty(model.Passcode) || !totp.VerifyTotp(model.Passcode, out long window, VerificationWindow.RfcSpecifiedNetworkDelay))
             {
                 ModelState.AddModelError(string.Empty, "Verification Failed.");
                 model.Passcode = "";

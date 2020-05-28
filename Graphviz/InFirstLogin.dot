@@ -1,0 +1,9 @@
+digraph Login {
+  login [label="Input username & password"]
+  Answer [label="Answer CQ"]
+  end [label="Authenticated"]
+  start -> login -> Answer -> end [color=blue]
+  start -> login -> "Set up CQ" -> end [color=black]
+  start -> login -> Answer -> "Input code (App)" -> end [color=red]
+
+}
