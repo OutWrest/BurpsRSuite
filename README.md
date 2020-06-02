@@ -20,13 +20,13 @@ There are pre-made test accounts to try out:
 
 *Please note that the password rules are really lax to allow for faster testing.*
 
-| Username     | Password        | First Name | Last Name | Account Number | Answer 1 (Challenge Question) | Answer 2 (Challenge Question) | Has Two Factor |
-|--------------|-----------------|------------|-----------|----------------|-------------------------------|-------------------------------|----------------|
-| user         | asd             | name       | -         | 123            | a                             | a                             | false          |
-| admin        | T0tally1337Pa$$ | name       | -         | 1337           | a                             | a                             | false          |
-| secureUser   | *               | Secure     | User      | **             | *                             | *                             | true           |
-| secureUser** | *               | VerySecure | User      | **             | *                             | *                             | true           |
-| secureAdmin  | *               | Secure     | Admin     | **             | *                             | *                             | true           |
+| Username     | Password        | First Name | Last Name | Email                     | Account Number | Answer 1 (Challenge Question) | Answer 2 (Challenge Question) | Has Two Factor |
+|--------------|-----------------|------------|-----------|---------------------------|----------------|-------------------------------|-------------------------------|----------------|
+| user         | asd             | name       | -         | user@aol.com              | 123            | a                             | a                             | false          |
+| admin        | T0tally1337Pa$$ | name       | -         | admin@admin.com           | 1337           | a                             | a                             | false          |
+| secureUser   | *               | Secure     | User      | user@protonmail.com       | **             | *                             | *                             | true           |
+| secureUser** | *               | VerySecure | User      | secureuser@protonmail.com | **             | *                             | *                             | true           |
+| secureAdmin  | *               | Secure     | Admin     | admin@protonmail.com      | **             | *                             | *                             | true           |
 
 **random lowercase letters (length = 5)*
 
